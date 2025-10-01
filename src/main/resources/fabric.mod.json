@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "lifesteal",
   "description": "A server side only reimagining of the Lifesteal SMP",
-  "authors": ["QPCrummer"],
+  "authors": ["QPCrummer", "Krystian Ptach-Żurakowski"],
   "contact": {},
   "license": "MIT",
   "icon": "assets/lifesteal/icon.png",

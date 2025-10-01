@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static org.apache.commons.lang3.BooleanUtils.or;
+
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity implements PlayerReviveData, PlayerInvulnerabilityInterface, PlayerMaxHealthInterface {
 
@@ -44,9 +46,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Pl
     @Inject(method = "onDeath", at = @At("TAIL"))
     private void lifesteal$onDeath(DamageSource damageSource, CallbackInfo ci) {
         Entity attacker = damageSource.getAttacker();
-        if (attacker instanceof ServerPlayerEntity playerAttacker) {
-            PlayerUtils.exchangeHealth(((ServerPlayerEntity) (Object) this), playerAttacker);
-        } else if (!getEntityWorld().getGameRules().getBoolean(LifeStealGamerules.PLAYERRELATEDONLY)) {
+        if (!getEntityWorld().getGameRules().getBoolean(LifeStealGamerules.PLAYERRELATEDONLY)) || (attacker instanceof ServerPlayerEntity playerAttacker)) {
             EntityAttributeInstance killedMaxHealth = this.getAttributeInstance(EntityAttributes.MAX_HEALTH);
             PlayerUtils.changeHealthUnchecked(((ServerPlayerEntity) (Object) this), -getEntityWorld().getGameRules().getInt(LifeStealGamerules.STEALAMOUNT));
             // Check to see if the player is dead
