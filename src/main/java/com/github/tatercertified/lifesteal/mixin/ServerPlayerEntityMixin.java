@@ -46,7 +46,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements Pl
     @Inject(method = "onDeath", at = @At("TAIL"))
     private void lifesteal$onDeath(DamageSource damageSource, CallbackInfo ci) {
         Entity attacker = damageSource.getAttacker();
-        if (!getEntityWorld().getGameRules().getBoolean(LifeStealGamerules.PLAYERRELATEDONLY)) || (attacker instanceof ServerPlayerEntity playerAttacker)) {
+        if ((!getEntityWorld().getGameRules().getBoolean(LifeStealGamerules.PLAYERRELATEDONLY)) || (attacker instanceof ServerPlayerEntity playerAttacker)) {
             EntityAttributeInstance killedMaxHealth = this.getAttributeInstance(EntityAttributes.MAX_HEALTH);
             PlayerUtils.changeHealthUnchecked(((ServerPlayerEntity) (Object) this), -getEntityWorld().getGameRules().getInt(LifeStealGamerules.STEALAMOUNT));
             // Check to see if the player is dead
